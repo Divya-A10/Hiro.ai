@@ -1,0 +1,169 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
+import { cn } from '@/src/lib/utils';
+
+const navItems = [
+  {
+    name: 'Products',
+    dropdown: [
+      { title: 'ATS Score Checker', desc: 'Scan your resume against job descriptions.' },
+      { title: 'Resume Analyzer', desc: 'Detailed recruiter-style feedback.' },
+      { title: 'Resume Rewrite Agent', desc: 'AI-driven high-impact rewrites.' },
+      { title: 'LinkedIn Optimizer', desc: 'Maximize your social presence.' },
+      { title: 'Interview Prep Agent', desc: 'Personalized mock interviews.' },
+      { title: 'Application Verdict Engine', desc: 'Find out why you got rejected.' },
+    ],
+  },
+  {
+    name: 'Solutions',
+    dropdown: [
+      { title: 'Students & New Grads', desc: 'Break into the industry.' },
+      { title: 'Software Engineers', desc: 'Optimize for tech giants.' },
+      { title: 'Product Roles', desc: 'Stand out in PM pipelines.' },
+      { title: 'Career Coaches', desc: 'Scale your coaching business.' },
+      { title: 'Universities', desc: 'Empower your student body.' },
+    ],
+  },
+  {
+    name: 'Resources',
+    dropdown: [
+      { title: 'Blog', desc: 'Latest career insights.' },
+      { title: 'Resume Templates', desc: 'Validated high-yield formats.' },
+      { title: 'ATS Guide', desc: 'Beat the algorithms.' },
+      { title: 'Interview Guide', desc: 'Master the soft skills.' },
+      { title: 'Success Stories', desc: 'Real results from Hiro users.' },
+    ],
+  },
+  {
+    name: 'Pricing',
+    dropdown: [
+      { title: 'Free', desc: 'Start with 3 free scans.' },
+      { title: 'Pro', desc: 'Unlimited optimizations.' },
+      { title: 'Enterprise', desc: 'Custom solutions for teams.' },
+    ],
+  },
+];
+
+export default function Navbar() {
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-border/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <a href="/" className="text-2xl font-bold tracking-tight text-brand-primary flex items-center gap-1">
+              <div className="w-6 h-6 bg-brand-primary rounded-sm flex items-center justify-center">
+                <div className="w-1.5 h-1.5 bg-white rotate-45" />
+              </div>
+              Hiro<span className="text-zinc-400">.ai</span>
+            </a>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {navItems.map((item) => (
+              <div
+                key={item.name}
+                className="relative group px-3 py-2 cursor-pointer"
+                onMouseEnter={() => setActiveDropdown(item.name)}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <button className="flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-brand-primary transition-colors">
+                  {item.name}
+                  <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", activeDropdown === item.name && "rotate-180")} />
+                </button>
+
+                <AnimatePresence>
+                  {activeDropdown === item.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      className="absolute top-full left-0 w-80 mt-1 bg-white border border-brand-border rounded-xl shadow-2xl p-4 overflow-hidden"
+                    >
+                      <div className="grid gap-4">
+                        {item.dropdown.map((subItem) => (
+                          <a
+                            key={subItem.title}
+                            href="#"
+                            className="group/item block p-3 rounded-lg hover:bg-brand-soft transition-colors"
+                          >
+                            <p className="text-sm font-semibold text-brand-primary group-hover/item:text-brand-primary">
+                              {subItem.title}
+                            </p>
+                            <p className="text-xs text-zinc-500 line-clamp-1">
+                              {subItem.desc}
+                            </p>
+                          </a>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Actions */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <a href="#" className="text-sm font-medium text-zinc-600 hover:text-brand-primary">
+              Sign In
+            </a>
+            <button className="bg-brand-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2">
+              Try Hiro Free
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-zinc-600"
+            >
+              {mobileMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden bg-white border-t border-brand-border overflow-hidden"
+          >
+            <div className="px-4 pt-2 pb-6 space-y-1">
+              {navItems.map((item) => (
+                <div key={item.name} className="py-2">
+                  <p className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">{item.name}</p>
+                  <div className="grid gap-2 pl-2">
+                    {item.dropdown.map((subItem) => (
+                      <a key={subItem.title} href="#" className="block py-1 text-sm font-medium text-zinc-600">
+                        {subItem.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div className="pt-4 border-t border-brand-border mt-4 flex flex-col gap-3">
+                <a href="#" className="text-center font-medium text-zinc-600 py-2">Sign In</a>
+                <button className="w-full bg-brand-primary text-white py-3 rounded-xl font-medium">
+                  Try Hiro Free
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+}
