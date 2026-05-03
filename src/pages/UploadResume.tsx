@@ -68,8 +68,14 @@ export default function UploadResume() {
       navigate('/job-description');
 
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || 'Failed to upload resume.');
+      console.error('Upload error details:', err);
+      let message = err.message || 'Failed to upload resume.';
+      
+      if (message === 'Failed to fetch') {
+        message = 'Connection to Supabase failed. Please check if VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are correctly set in your environment variables.';
+      }
+      
+      setError(message);
     } finally {
       setIsUploading(false);
     }

@@ -1,12 +1,15 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const apiKey = process.env.GEMINI_API_KEY;
+const ai = new GoogleGenAI({ 
+  apiKey: (typeof process !== 'undefined' && process.env.GEMINI_API_KEY) 
+    ? process.env.GEMINI_API_KEY 
+    : (import.meta.env.VITE_GEMINI_API_KEY || '') 
+});
 
-if (!apiKey) {
-  console.warn('GEMINI_API_KEY is missing. AI features will not work.');
+if (!(typeof process !== 'undefined' && process.env.GEMINI_API_KEY) && (!import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY.includes('your-'))) {
+  console.error('Gemini API Key is missing. AI features will not work.\n' +
+    'On Vercel, please add VITE_GEMINI_API_KEY to your Environment Variables.');
 }
-
-const ai = new GoogleGenAI({ apiKey: apiKey || '' });
 
 export interface AnalysisResult {
   matchScore: number;
@@ -69,7 +72,11 @@ export async function analyzeResume(resumeText: string, jobDescription: string):
       }
     });
 
-    return JSON.parse(response.text);
+    const text = response.text;
+    if (!text) throw new Error("Empty response from AI engine");
+    
+    const cleanJson = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    return JSON.parse(cleanJson);
   } catch (error) {
     console.error("Analysis failed:", error);
     throw new Error("Failed to analyze resume. Please try again.");

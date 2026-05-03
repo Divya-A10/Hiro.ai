@@ -20,23 +20,31 @@ export default function JobDescription() {
       const resumeText = sessionStorage.getItem('current_resume_text');
       const resumeId = sessionStorage.getItem('current_resume_id');
 
+      console.log('Starting analysis for resume:', resumeId);
       if (!resumeText || !resumeId) {
         throw new Error('Resume context missing. Please upload your resume again.');
       }
 
       // 1. Store Job Description
+      console.log('Storing job description...');
       const { data: jdData, error: jdError } = await supabase
         .from('job_descriptions')
         .insert({ description_text: description })
         .select()
         .single();
 
-      if (jdError) throw jdError;
+      if (jdError) {
+        console.error('JD Insertion Error:', jdError);
+        throw jdError;
+      }
 
       // 2. Perform AI Analysis
+      console.log('Calling AI Engine (this may take 5-10 seconds)...');
       const analysis = await analyzeResume(resumeText, description);
+      console.log('Analysis received successfully.');
 
       // 3. Save Analysis
+      console.log('Saving analysis to database...');
       const { error: analysisError } = await supabase
         .from('analyses')
         .insert({
@@ -50,15 +58,25 @@ export default function JobDescription() {
           interview_questions: analysis.interviewQuestions
         });
 
-      if (analysisError) throw analysisError;
+      if (analysisError) {
+        console.error('Analysis Insertion Error:', analysisError);
+        throw analysisError;
+      }
 
       // 4. Store result and navigate
       sessionStorage.setItem('current_analysis', JSON.stringify(analysis));
+      console.log('Navigating to results.');
       navigate('/results');
 
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || 'Analysis failed. Please check your connection.');
+      console.error('Analysis flow error:', err);
+      let message = err.message || 'Analysis failed. Please check your connection.';
+      
+      if (message === 'Failed to fetch' || (err.status === 0)) {
+        message = 'Connection to API failed. If you are on Vercel, please ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set. In AI Studio, ensure you are not behind a strict firewall.';
+      }
+      
+      setError(message);
     } finally {
       setIsAnalyzing(false);
     }
