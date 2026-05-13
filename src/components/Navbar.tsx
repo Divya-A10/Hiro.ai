@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
-import { cn } from '@/src/lib/utils';
+import { ChevronDown, Menu, X, ArrowRight, User as UserIcon, LogOut } from 'lucide-react';
+import { cn } from '../lib/utils';
+import { useAuth } from '../contexts/AuthContext';
 
 const navItems = [
   {
@@ -48,6 +49,8 @@ const navItems = [
 export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, signInWithGoogle, signOut } = useAuth();
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-border/50">
@@ -111,13 +114,62 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            <a href="#" className="text-sm font-medium text-zinc-600 hover:text-brand-primary">
-              Sign In
-            </a>
-            <button className="bg-brand-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2">
-              Try Hiro Free
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            {!user ? (
+              <>
+                <button 
+                  onClick={() => signInWithGoogle()}
+                  className="text-sm font-medium text-zinc-600 hover:text-brand-primary"
+                >
+                  Sign In
+                </button>
+                <button 
+                  onClick={() => signInWithGoogle()}
+                  className="bg-brand-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2"
+                >
+                  Get Started
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </>
+            ) : (
+              <div className="relative">
+                <button 
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-2 p-1.5 rounded-full hover:bg-brand-soft transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center text-white overflow-hidden">
+                    {user.user_metadata?.avatar_url ? (
+                      <img src={user.user_metadata.avatar_url} alt="Profile" referrerPolicy="no-referrer" />
+                    ) : (
+                      <UserIcon className="w-4 h-4" />
+                    )}
+                  </div>
+                  <ChevronDown className={cn("w-4 h-4 transition-transform", showUserMenu && "rotate-180")} />
+                </button>
+
+                <AnimatePresence>
+                  {showUserMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute right-0 mt-2 w-48 bg-white border border-brand-border rounded-xl shadow-xl p-2"
+                    >
+                      <div className="px-3 py-2 border-b border-brand-border mb-1">
+                        <p className="text-xs font-semibold text-zinc-400 uppercase">Account</p>
+                        <p className="text-sm font-medium text-zinc-900 truncate">{user.email}</p>
+                      </div>
+                      <button
+                        onClick={() => signOut()}
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -155,10 +207,41 @@ export default function Navbar() {
                 </div>
               ))}
               <div className="pt-4 border-t border-brand-border mt-4 flex flex-col gap-3">
-                <a href="#" className="text-center font-medium text-zinc-600 py-2">Sign In</a>
-                <button className="w-full bg-brand-primary text-white py-3 rounded-xl font-medium">
-                  Try Hiro Free
-                </button>
+                {!user ? (
+                  <>
+                    <button 
+                      onClick={() => { signInWithGoogle(); setMobileMenuOpen(false); }}
+                      className="text-center font-medium text-zinc-600 py-2"
+                    >
+                      Sign In
+                    </button>
+                    <button 
+                      onClick={() => { signInWithGoogle(); setMobileMenuOpen(false); }}
+                      className="w-full bg-brand-primary text-white py-3 rounded-xl font-medium"
+                    >
+                      Try Hiro Free
+                    </button>
+                  </>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-3 px-2 py-2">
+                      <div className="w-8 h-8 rounded-full bg-brand-primary flex items-center justify-center text-white overflow-hidden">
+                        {user.user_metadata?.avatar_url ? (
+                          <img src={user.user_metadata.avatar_url} alt="Profile" referrerPolicy="no-referrer" />
+                        ) : (
+                          <UserIcon className="w-4 h-4" />
+                        )}
+                      </div>
+                      <span className="text-sm font-medium text-zinc-900">{user.email}</span>
+                    </div>
+                    <button
+                      onClick={() => { signOut(); setMobileMenuOpen(false); }}
+                      className="w-full text-red-600 py-2 font-medium bg-red-50 rounded-xl"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>

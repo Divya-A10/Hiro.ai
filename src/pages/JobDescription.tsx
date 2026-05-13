@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles, Loader2, Link as LinkIcon, AlignLeft } from 'lucide-react';
-import { supabase } from '@/src/lib/supabase';
-import { analyzeResume } from '@/src/lib/ai';
+import { supabase } from '../lib/supabase';
+import { analyzeResume } from '../lib/ai';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function JobDescription() {
   const [description, setDescription] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleAnalyze = async () => {
     if (!description.trim()) return;
@@ -29,7 +31,10 @@ export default function JobDescription() {
       console.log('Storing job description...');
       const { data: jdData, error: jdError } = await supabase
         .from('job_descriptions')
-        .insert({ description_text: description })
+        .insert({ 
+          description_text: description,
+          user_id: user?.id || null 
+        })
         .select()
         .single();
 
@@ -55,7 +60,8 @@ export default function JobDescription() {
           matched_skills: analysis.matchedSkills,
           missing_skills: analysis.missingSkills,
           rewritten_bullets: analysis.rewrittenBullets,
-          interview_questions: analysis.interviewQuestions
+          interview_questions: analysis.interviewQuestions,
+          user_id: user?.id || null
         });
 
       if (analysisError) {

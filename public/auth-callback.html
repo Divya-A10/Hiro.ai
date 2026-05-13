@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authenticating...</title>
+</head>
+<body>
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;">
+    <p>Completing login, please wait...</p>
+  </div>
+  <script>
+    // This page is reached after a successful OAuth redirect.
+    // We need to redirect back to the main app while preserving the URL hash 
+    // (where Supabase puts the access token).
+    
+    if (window.location.hash) {
+      window.location.href = '/' + window.location.hash;
+    } else {
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>

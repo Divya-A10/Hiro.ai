@@ -3,14 +3,16 @@ import { useDropzone } from 'react-dropzone';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Upload, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { supabase } from '@/src/lib/supabase';
-import { extractTextFromPdf } from '@/src/lib/pdf';
+import { supabase } from '../lib/supabase';
+import { extractTextFromPdf } from '../lib/pdf';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function UploadResume() {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
@@ -55,7 +57,8 @@ export default function UploadResume() {
         .insert({
           file_url: publicUrl,
           extracted_text: text,
-          filename: file.name
+          filename: file.name,
+          user_id: user?.id || null
         })
         .select()
         .single();
