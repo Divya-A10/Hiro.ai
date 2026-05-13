@@ -2,7 +2,7 @@
 
 An AI-powered resume analysis tool built with React, Vite, Supabase, and Gemini AI.
 https://www.gethiroaiapp.tech/
-
+# pitch deck : https://www.gethiroaiapp.tech/pitch
 ## Project Setup
 
 ### Environment Variables
