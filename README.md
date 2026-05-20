@@ -28,6 +28,9 @@ To run this project, you will need to add the following environment variables to
    npm run dev
    ```
 
+   <img width="738" height="566" alt="Screenshot 2026-05-20 at 2 10 49 PM" src="https://github.com/user-attachments/assets/4ace4910-7183-4ae3-ae55-e65860ac26a0" />
+
+
 ## Database Schema
 
 The application expects the following tables in Supabase:
