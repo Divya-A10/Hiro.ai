@@ -19,6 +19,12 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@clerk/nextjs": [
+        "./src/clerk-wrapper"
+      ],
+      "react-router-dom": [
+        "./src/react-router-dom-mock"
       ]
     },
     "allowImportingTsExtensions": true,

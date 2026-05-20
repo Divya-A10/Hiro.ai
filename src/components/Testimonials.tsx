@@ -24,15 +24,17 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-brand-soft/50 border-y border-brand-border/50">
+    <section className="py-24 bg-brand-soft border-y border-brand-border/60">
       <div className="max-w-7xl mx-auto px-4 space-y-16">
         <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold tracking-tight">Loved by candidates at world-class companies.</h2>
-          <div className="flex items-center justify-center gap-1">
+          <h2 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-tight text-brand-primary">
+            Loved by candidates at world-class companies.
+          </h2>
+          <div className="flex items-center justify-center gap-1.5">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-4 h-4 fill-brand-primary text-brand-primary" />
             ))}
-            <span className="ml-2 text-sm font-semibold">4.9/5 from 2,000+ reviews</span>
+            <span className="ml-2 text-sm font-semibold text-zinc-700 font-sans tracking-tight">4.9/5 from 2,000+ reviews</span>
           </div>
         </div>
 
@@ -40,21 +42,27 @@ export default function Testimonials() {
           {testimonials.map((item, i) => (
             <motion.div
               key={item.author}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="p-8 rounded-2xl bg-white border border-brand-border shadow-sm flex flex-col justify-between"
+              transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="p-10 rounded-2xl bg-white border border-brand-border shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between h-full hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300"
             >
               <div className="space-y-4">
-                <Quote className="w-8 h-8 text-zinc-100" />
-                <p className="text-zinc-600 italic leading-relaxed">"{item.quote}"</p>
+                <div className="text-5xl font-serif text-zinc-200/70 select-none leading-none -mb-2">“</div>
+                <p className="text-zinc-600 font-sans text-base leading-relaxed italic">
+                  "{item.quote}"
+                </p>
               </div>
               <div className="flex items-center gap-4 mt-8 pt-6 border-t border-brand-border">
-                <img src={item.avatar} alt={item.author} className="w-10 h-10 rounded-full grayscale grayscale-hover transition-all" />
+                <img 
+                  src={item.avatar} 
+                  alt={item.author} 
+                  className="w-10 h-10 rounded-full object-cover transition-transform duration-300 hover:scale-105" 
+                />
                 <div>
-                  <h4 className="text-sm font-bold">{item.author}</h4>
-                  <p className="text-xs text-zinc-400 font-medium">{item.role}</p>
+                  <h4 className="text-sm font-bold text-brand-primary leading-tight">{item.author}</h4>
+                  <p className="text-xs text-zinc-500 font-medium tracking-wide mt-0.5">{item.role}</p>
                 </div>
               </div>
             </motion.div>

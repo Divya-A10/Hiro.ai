@@ -33,7 +33,7 @@ export default function Features() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
             <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">The Problem</span>
-            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">
+            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight text-brand-primary">
               Generic ATS checkers <br />
               <span className="text-zinc-400">are wasting your time.</span>
             </h2>
@@ -42,20 +42,20 @@ export default function Features() {
             </p>
             <div className="flex items-center gap-2 pt-4">
               <Zap className="w-5 h-5 text-brand-primary" />
-              <span className="text-sm font-semibold">Join 50,000+ candidates beating the odds.</span>
+              <span className="text-sm font-semibold text-brand-primary">Join 50,000+ candidates beating the odds.</span>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-4 pt-12">
               {/* Block 1: The Rejection (Problem) */}
-              <div className="h-48 rounded-2xl bg-white border border-rose-100 p-6 flex flex-col justify-between shadow-sm">
+              <div className="h-48 rounded-2xl bg-white border border-rose-200 p-6 flex flex-col justify-between shadow-sm">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-rose-500" />
                   <span className="text-[10px] font-bold uppercase tracking-widest text-rose-500">System Rejection</span>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-xl font-serif italic text-zinc-300 line-through">Impact Score: N/A</p>
-                  <p className="text-sm font-medium text-zinc-400">"Insufficient keyword density for 'Agile' in 3+ sectors."</p>
+                  <p className="text-xl font-serif italic text-zinc-400 line-through">Impact Score: N/A</p>
+                  <p className="text-sm font-medium text-zinc-650">"Insufficient keyword density for 'Agile' in 3+ sectors."</p>
                 </div>
               </div>
 
@@ -81,9 +81,9 @@ export default function Features() {
                 <div className="flex items-start justify-between mb-8">
                   <div className="space-y-1">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Context Map</span>
-                    <p className="text-lg font-bold">Hidden Gems</p>
+                    <p className="text-lg font-bold text-brand-primary">Hidden Gems</p>
                   </div>
-                  <Search className="w-4 h-4 text-zinc-300" />
+                  <Search className="w-4 h-4 text-zinc-400" />
                 </div>
                 <div className="space-y-3">
                   {[
@@ -92,7 +92,7 @@ export default function Features() {
                     { label: 'Risk Mitigation', val: 'Top 1%' }
                   ].map(stat => (
                     <div key={stat.label} className="flex justify-between items-center border-b border-zinc-200 pb-2">
-                      <span className="text-xs text-zinc-500">{stat.label}</span>
+                      <span className="text-xs text-zinc-600">{stat.label}</span>
                       <span className="text-xs font-mono font-bold text-brand-primary">{stat.val}</span>
                     </div>
                   ))}
@@ -107,7 +107,7 @@ export default function Features() {
                       <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-zinc-200" />
                     ))}
                   </div>
-                  <p className="text-xs font-medium text-zinc-500">"92% of users with this profile <br />secured an interview within 14 days."</p>
+                  <p className="text-xs font-medium text-zinc-600">"92% of users with this profile <br />secured an interview within 14 days."</p>
                 </div>
               </div>
             </div>
@@ -117,7 +117,7 @@ export default function Features() {
         {/* How it works / Why Hiro */}
         <div className="space-y-16">
           <div className="text-center space-y-4">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Built for modern hiring pipelines.</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-brand-primary">Built for modern hiring pipelines.</h2>
             <p className="text-zinc-500 max-w-2xl mx-auto italic">Everything you need to go from "Applied" to "Interview Scheduled".</p>
           </div>
 
@@ -132,10 +132,10 @@ export default function Features() {
                 className="p-8 rounded-2xl border border-brand-border hover:border-zinc-400 transition-colors bg-brand-soft/30 group"
               >
                 <div className="w-12 h-12 rounded-xl bg-white border border-brand-border flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white transition-colors">
-                  <feature.icon className="w-6 h-6" />
+                  <feature.icon className="w-6 h-6 text-brand-primary group-hover:text-white transition-colors" />
                 </div>
-                <h3 className="text-lg font-bold mb-3">{feature.title}</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">{feature.description}</p>
+                <h3 className="text-lg font-bold mb-3 text-brand-primary">{feature.title}</h3>
+                <p className="text-sm text-zinc-600 leading-relaxed">{feature.description}</p>
               </motion.div>
             ))}
           </div>

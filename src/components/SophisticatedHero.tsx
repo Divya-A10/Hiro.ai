@@ -1,7 +1,19 @@
 import { motion } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function SophisticatedHero() {
+  const navigate = useNavigate();
+  const { user, signInWithGoogle } = useAuth();
+
+  const handleJoinTribe = async () => {
+    if (!user) {
+      await signInWithGoogle();
+    }
+    navigate('/upload');
+  };
+
   return (
     <section className="bg-black text-white min-h-[90vh] flex flex-col justify-center px-4 relative overflow-hidden">
       {/* Background Atmosphere - Inspired by Recipe 7 */}
@@ -37,6 +49,7 @@ export default function SophisticatedHero() {
 
           <div className="lg:col-span-4 lg:pb-12">
             <motion.div
+              onClick={handleJoinTribe}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}

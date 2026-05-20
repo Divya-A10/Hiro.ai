@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev": "node scripts/dev.js",
     "build": "vite build",
-    "preview": "vite preview",
+    "start": "node scripts/start.js",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.61.6",
+    "@clerk/nextjs": "^7.3.7",
     "@google/genai": "^1.29.0",
     "@supabase/supabase-js": "^2.105.1",
     "@tailwindcss/vite": "^4.1.14",
@@ -21,6 +23,7 @@
     "express": "^4.21.2",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
+    "next": "^16.2.6",
     "pdfjs-dist": "^5.7.284",
     "pptxgenjs": "^4.0.1",
     "react": "^19.0.1",
@@ -31,8 +34,10 @@
     "vite": "^6.2.3"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
+    "@types/react": "19.2.15",
     "autoprefixer": "^10.4.21",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",

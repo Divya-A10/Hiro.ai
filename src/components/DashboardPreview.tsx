@@ -6,7 +6,17 @@ export default function DashboardPreview() {
   const matchedSkills = ['Python', 'React', 'AWS', 'Docker', 'GraphQL'];
 
   return (
-    <div className="relative w-full max-w-6xl mx-auto p-2 sm:p-4 rounded-3xl bg-zinc-800/10 border border-white/5 backdrop-blur-xl">
+    <section className="py-24 bg-black">
+      <div className="max-w-6xl mx-auto px-4 mb-12 text-left">
+        <h2 className="text-4xl md:text-5xl font-serif italic text-white mb-4 tracking-tight">
+          The Interface of Insight
+        </h2>
+        <p className="text-zinc-400 text-sm md:text-base font-light max-w-xl leading-relaxed">
+          A dashboard designed for clarity, not complexity. See exactly what the algorithm sees.
+        </p>
+      </div>
+
+      <div className="relative w-full max-w-6xl mx-auto p-2 sm:p-4 rounded-3xl bg-zinc-800/10 border border-white/5 backdrop-blur-xl">
       <div className="rounded-[1.25rem] bg-white border border-brand-border shadow-[0_32px_64px_-16px_rgba(0,0,0,0.4)] overflow-hidden min-h-[600px] flex flex-col sm:flex-row">
         
         {/* Sidebar */}
@@ -79,7 +89,7 @@ export default function DashboardPreview() {
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-4xl font-bold tracking-tighter">74%</span>
+                  <span className="text-4xl font-bold tracking-tighter text-brand-primary">74%</span>
                 </div>
               </div>
               <p className="text-sm text-zinc-600 px-4">Your resume matches <span className="font-bold">24 out of 32</span> core requirements.</p>
@@ -96,7 +106,7 @@ export default function DashboardPreview() {
                 <AlertCircle className="w-4 h-4 text-amber-500" />
                 <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">Recruiter Verdict</span>
               </div>
-              <p className="text-lg font-medium leading-snug">
+              <p className="text-lg font-medium leading-snug text-brand-primary">
                 "Solid technical background, but your <span className="italic underline decoration-amber-300">impact metrics</span> are buried. Move your AWS accomplishments to the top."
               </p>
               <div className="flex gap-2">
@@ -151,10 +161,11 @@ export default function DashboardPreview() {
           </div>
           <div>
             <p className="text-xs font-bold text-zinc-400 uppercase">Impact Score</p>
-            <p className="text-sm font-bold">+12% Optimized</p>
+            <p className="text-sm font-bold text-brand-primary">+12% Optimized</p>
           </div>
         </div>
       </motion.div>
     </div>
+    </section>
   );
 }

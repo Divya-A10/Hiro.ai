@@ -1,12 +1,17 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
+const geminiKey = (typeof process !== 'undefined' && process.env.GEMINI_API_KEY)
+  ? process.env.GEMINI_API_KEY
+  : (typeof import.meta !== 'undefined' && import.meta.env
+    ? (import.meta.env.VITE_GEMINI_API_KEY || '')
+    : '');
+
 const ai = new GoogleGenAI({ 
-  apiKey: (typeof process !== 'undefined' && process.env.GEMINI_API_KEY) 
-    ? process.env.GEMINI_API_KEY 
-    : (import.meta.env.VITE_GEMINI_API_KEY || '') 
+  apiKey: geminiKey
 });
 
-if (!(typeof process !== 'undefined' && process.env.GEMINI_API_KEY) && (!import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY.includes('your-'))) {
+const isGeminiKeyMissing = !geminiKey || geminiKey.includes('your-');
+if (isGeminiKeyMissing) {
   console.error('Gemini API Key is missing. AI features will not work.\n' +
     'On Vercel, please add VITE_GEMINI_API_KEY to your Environment Variables.');
 }
@@ -30,9 +35,13 @@ export async function analyzeResume(resumeText: string, jobDescription: string):
     Resume:
     ${resumeText}
     
-    Analyze and return:
+    Analyze and return a JSON object with:
     - matchScore: A percentage score (0-100) representing how well the candidate fits the role.
     - recruiterVerdict: A short, professional feedback summary (max 3 sentences).
+      CRITICAL ALIGNMENT RULE: The tone, feedback, and summary within recruiterVerdict MUST strictly align with the generated matchScore:
+      * If matchScore is low (< 60), the verdict MUST be realistic and critical about key gaps, and you are strictly FORBIDDEN from using high-praise or elite-tier terms like "Optimized Tier", "Top 5% candidate", "exceptional fit", "perfect alignment", or "outstanding".
+      * If matchScore is high (>= 80), the verdict can be encouraging, acknowledging strong qualifications.
+      * Keep it thoroughly professional, constructive, and realistic.
     - missingSkills: List of technical or soft skills mentioned in the job description but not clearly found in the resume.
     - matchedSkills: List of skills found in both.
     - rewrittenBullets: 3-5 improved, high-impact bullet points for the resume based on the job requirements.
