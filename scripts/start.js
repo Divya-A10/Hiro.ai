@@ -18,11 +18,25 @@ if (!filteredArgs.includes('--host') && !filteredArgs.includes('-H')) {
 
 console.log('Filtered start args:', filteredArgs);
 
+// Background spawn FastAPI main.py using python3
+console.log('Spawning FastAPI Python backend (uvicorn main:app)...');
+const pythonProcess = spawn('python3', ['-m', 'uvicorn', 'main:app', '--host', '127.0.0.1', '--port', '8080'], {
+  stdio: 'inherit',
+  shell: true
+});
+
+pythonProcess.on('error', (err) => {
+  console.error('Failed to start python backend:', err);
+});
+
 const child = spawn('npx', ['vite', 'preview', ...filteredArgs], {
   stdio: 'inherit',
   shell: true
 });
 
 child.on('exit', (code) => {
+  try {
+    pythonProcess.kill();
+  } catch (e) {}
   process.exit(code || 0);
 });

@@ -31,6 +31,18 @@ const API_BASE_URL = typeof import.meta !== 'undefined' && import.meta.env
   ? (import.meta.env.VITE_API_URL || import.meta.env.NEXT_PUBLIC_API_URL || '')
   : '';
 
+function getCleanApiUrl(endpoint: string): string {
+  let base = API_BASE_URL;
+  if (typeof window !== 'undefined') {
+    // If we are in the cloud preview or real domain, and localhost is specified, strip base to use relative proxy routing
+    if (base.includes('localhost') && !window.location.hostname.includes('localhost')) {
+      base = '';
+    }
+  }
+  // If base is empty, default to absolute or relative prefix
+  return `${base || ''}${endpoint}`;
+}
+
 async function getAuthHeaders(): Promise<Record<string, string>> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -57,7 +69,7 @@ export const hiroApiService = {
     const headers = await getAuthHeaders();
     
     // Resolve endpoint fallback gracefully
-    const url = `${API_BASE_URL || "http://localhost:8080"}/api/v1/optimize`;
+    const url = getCleanApiUrl("/api/v1/optimize");
     console.log(`[HIRO CORE] Inbound transaction dispatch destination: ${url}`);
     
     const response = await fetch(url, {

@@ -26,14 +26,19 @@ export interface AnalysisResult {
 }
 
 export async function analyzeResume(resumeText: string, jobDescription: string): Promise<AnalysisResult> {
-  const apiUrl = typeof process !== 'undefined' && (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL)
+  let apiUrl = typeof process !== 'undefined' && (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL)
     ? (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL)
     : (typeof import.meta !== 'undefined' && import.meta.env
       ? (import.meta.env.VITE_API_URL || import.meta.env.NEXT_PUBLIC_API_URL || '')
       : '');
 
-  if (apiUrl) {
-    console.log(`[HIRO ROUTER] Routing payload to live Cloud Run orchestrator at: ${apiUrl}`);
+  const hasPipeline = !!(apiUrl || (typeof window !== 'undefined' && !window.location.hostname.includes('localhost')));
+  if (typeof window !== 'undefined' && apiUrl.includes('localhost') && !window.location.hostname.includes('localhost')) {
+    apiUrl = '';
+  }
+
+  if (hasPipeline) {
+    console.log(`[HIRO ROUTER] Routing payload to live Cloud Run orchestrator at: ${apiUrl || '(relative)'}`);
     
     let authHeader = "";
     try {
