@@ -38,26 +38,22 @@ try {
   }
 }
 
-// Background spawn FastAPI main.py using python3
-console.log('Spawning FastAPI Python backend (uvicorn main:app)...');
-const logStream = fs.createWriteStream('./python_logs.txt', { flags: 'w' });
-
-const pythonProcess = spawn('python3', ['-m', 'uvicorn', 'main:app', '--host', '127.0.0.1', '--port', '8080'], {
+// Background spawn dynamic Express Node backend (server.ts) on port 5000 using npx tsx
+console.log('Spawning Node Express backend (npx tsx server.ts on port 5000)...');
+const devBackendProcess = spawn('npx', ['tsx', 'server.ts'], {
+  env: { ...process.env, BACKEND_PORT: '5000' },
   shell: true
 });
 
-if (pythonProcess.stdout) {
-  pythonProcess.stdout.pipe(logStream);
-  pythonProcess.stdout.pipe(process.stdout);
-}
-if (pythonProcess.stderr) {
-  pythonProcess.stderr.pipe(logStream);
-  pythonProcess.stderr.pipe(process.stderr);
-}
+devBackendProcess.stdout.on('data', (data) => {
+  console.log(`[Backend-Stdout] ${data.toString().trim()}`);
+});
+devBackendProcess.stderr.on('data', (data) => {
+  console.error(`[Backend-Stderr] ${data.toString().trim()}`);
+});
 
-pythonProcess.on('error', (err) => {
-  console.error('Failed to start python backend:', err);
-  fs.appendFileSync('./python_logs.txt', `\nFailed to start python backend: ${err.message}\n`);
+devBackendProcess.on('error', (err) => {
+  console.error('Failed to start Node Express backend:', err);
 });
 
 const child = spawn('npx', ['vite', ...filteredArgs], {
@@ -67,7 +63,7 @@ const child = spawn('npx', ['vite', ...filteredArgs], {
 
 child.on('exit', (code) => {
   try {
-    pythonProcess.kill();
+    devBackendProcess.kill();
   } catch (e) {}
   process.exit(code || 0);
 });

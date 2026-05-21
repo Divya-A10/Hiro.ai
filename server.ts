@@ -290,8 +290,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
-// Keep port hardcoded exactly to 3000 as mandated by system architecture
-const PORT = 3000;
+// Keep port hardcoded exactly to 3000 in production as mandated by system architecture, but allow dev proxying
+const PORT = process.env.BACKEND_PORT ? parseInt(process.env.BACKEND_PORT, 10) : 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`[HIRO GATEWAY] Full-Stack Server active at http://0.0.0.0:${PORT}`);
 });
