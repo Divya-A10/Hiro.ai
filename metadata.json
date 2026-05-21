@@ -2,5 +2,5 @@
   "name": "Hiro.ai - Your AI Recruiter",
   "description": "Premium AI-powered recruiter feedback tool to beat ATS systems and optimize resumes.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

@@ -1,4 +1,4 @@
-import { spawn } from 'child_process';
+import { spawn, execSync } from 'child_process';
 
 const args = process.argv.slice(2);
 console.log('Original start args:', args);
@@ -17,6 +17,21 @@ if (!filteredArgs.includes('--host') && !filteredArgs.includes('-H')) {
 }
 
 console.log('Filtered start args:', filteredArgs);
+
+// Install Python dependencies
+console.log('Installing Python dependencies from requirements.txt...');
+try {
+  const pipStdout = execSync('python3 -m pip install -r requirements.txt', { stdio: 'pipe' });
+  console.log('Python dependencies installed successfully.');
+} catch (e) {
+  console.warn('python3 -m pip failed, trying python...', e);
+  try {
+    const pipStdout = execSync('python -m pip install -r requirements.txt', { stdio: 'pipe' });
+    console.log('Python dependencies installed successfully via python -m pip.');
+  } catch (err) {
+    console.error('Failed to install python dependencies:', err);
+  }
+}
 
 // Background spawn FastAPI main.py using python3
 console.log('Spawning FastAPI Python backend (uvicorn main:app)...');
