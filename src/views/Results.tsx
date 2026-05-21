@@ -6,6 +6,7 @@ import {
   AlertTriangle, XCircle, HelpCircle, MessageSquare, 
   Zap, User, MessageCircle, X, CircleUser, Mail, Briefcase, Loader2
 } from 'lucide-react';
+import { HiroDashboard } from '../components/HiroDashboard';
 
 interface AnalysisData {
   matchScore: number;
@@ -22,6 +23,8 @@ export default function Results() {
   const [advisorSubmitting, setAdvisorSubmitting] = useState(false);
   const [advisorSuccess, setAdvisorSuccess] = useState(false);
   const [advisorForm, setAdvisorForm] = useState({ name: "", email: "", role: "" });
+  const [resumeText, setResumeText] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +35,8 @@ export default function Results() {
     }
     try {
       setAnalysis(JSON.parse(raw));
+      setResumeText(sessionStorage.getItem("current_resume_text") || "");
+      setJobDescription(sessionStorage.getItem("current_job_description") || "");
     } catch (e) {
       console.error("Failed to parse analysis");
       navigate("/upload");
@@ -244,6 +249,13 @@ export default function Results() {
           </section>
 
         </div>
+
+        {/* Live Multi-Agent Re-Optimization Console */}
+        <HiroDashboard 
+          resumeText={resumeText} 
+          jobDescription={jobDescription} 
+          onUpdateAnalysis={setAnalysis} 
+        />
 
         {/* Resume Rewriting Section */}
         <section className="pt-24 space-y-12">

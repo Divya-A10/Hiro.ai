@@ -69,6 +69,7 @@ export default function JobDescription() {
         }
 
         sessionStorage.setItem("current_analysis", JSON.stringify(analysis));
+        sessionStorage.setItem("current_job_description", description);
         console.log("Navigating to results.");
         navigate("/results");
       } catch (err: any) {

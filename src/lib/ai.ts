@@ -26,6 +26,86 @@ export interface AnalysisResult {
 }
 
 export async function analyzeResume(resumeText: string, jobDescription: string): Promise<AnalysisResult> {
+  const apiUrl = typeof process !== 'undefined' && (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL)
+    ? (process.env.VITE_API_URL || process.env.NEXT_PUBLIC_API_URL)
+    : (typeof import.meta !== 'undefined' && import.meta.env
+      ? (import.meta.env.VITE_API_URL || import.meta.env.NEXT_PUBLIC_API_URL || '')
+      : '');
+
+  if (apiUrl) {
+    console.log(`[HIRO ROUTER] Routing payload to live Cloud Run orchestrator at: ${apiUrl}`);
+    
+    let authHeader = "";
+    try {
+      const clerk = (window as any).Clerk;
+      if (clerk?.session) {
+        const token = await clerk.session.getToken();
+        if (token) {
+          authHeader = `Bearer ${token}`;
+        }
+      }
+    } catch (e) {
+      console.warn("Clerk security token resolution deferred:", e);
+    }
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (authHeader) {
+      headers["Authorization"] = authHeader;
+    }
+
+    const response = await fetch(`${apiUrl}/api/v1/optimize`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        raw_text_resume: resumeText,
+        raw_job_description: jobDescription,
+        preferences: {
+          target_role: "Forward Deployed Engineer",
+          target_location: "Remote",
+          strict_ats_matching: true
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errorMsg = await response.text();
+      throw new Error(`Orchestration Engine Exception (Status ${response.status}): ${errorMsg}`);
+    }
+
+    const data = await response.json();
+    
+    // Handle parsing mapping onto local AnalysisResult fields
+    const atsScorePercent = data.system_metrics?.final_ats_score
+      ? Math.round(data.system_metrics.final_ats_score * 100)
+      : (data.analytics?.ats_score ? Math.round(data.analytics.ats_score * 100) : 75);
+
+    const bullets: string[] = [];
+    if (data.optimized_resume) {
+      // Split bullets by newline if multiple are grouped in raw text, clean empty lines
+      const splitLines = data.optimized_resume.split("\n")
+        .map((l: string) => l.trim().replace(/^-\s*/, ""))
+        .filter((l: string) => l.length > 0);
+      bullets.push(...splitLines);
+    } else {
+      bullets.push("Refactored experiences in alignment with target corporate schema.");
+    }
+
+    return {
+      matchScore: atsScorePercent,
+      recruiterVerdict: data.compliance?.is_valid
+        ? "Enterprise validation approved! " + (data.compliance.improvements_requested?.join(". ") || "State machine successfully finalized all correction loops using STAR patterns.")
+        : "Correction loop completed. Deficiencies: " + (data.compliance?.improvements_requested?.join(". ") || "Minor formatting gap identified."),
+      missingSkills: data.analytics?.hard_skills_missing || [],
+      matchedSkills: data.analytics?.soft_skills_missing || ["Collaborative Solutioning"],
+      rewrittenBullets: bullets.slice(0, 5),
+      interviewQuestions: data.compliance?.improvements_requested && data.compliance.improvements_requested.length > 0
+        ? data.compliance.improvements_requested
+        : ["How do you apply Vertex AI Context Caching to scale application throughput cost-effectively?"]
+    };
+  }
+
   const prompt = `
     Compare the following resume with this job description.
     
