@@ -1,0 +1,160 @@
+python3 -m pip success:
+Collecting fastapi==0.110.0 (from -r requirements.txt (line 1))
+  Using cached fastapi-0.110.0-py3-none-any.whl.metadata (25 kB)
+Collecting uvicorn==0.28.0 (from -r requirements.txt (line 2))
+  Using cached uvicorn-0.28.0-py3-none-any.whl.metadata (6.3 kB)
+Collecting google-genai==1.29.0 (from -r requirements.txt (line 3))
+  Downloading google_genai-1.29.0-py3-none-any.whl.metadata (43 kB)
+Collecting langgraph==0.0.26 (from -r requirements.txt (line 4))
+  Downloading langgraph-0.0.26-py3-none-any.whl.metadata (34 kB)
+Collecting psycopg2-binary==2.9.9 (from -r requirements.txt (line 5))
+  Downloading psycopg2_binary-2.9.9-cp312-cp312-macosx_11_0_arm64.whl.metadata (4.4 kB)
+Collecting pydantic==2.6.4 (from -r requirements.txt (line 6))
+  Downloading pydantic-2.6.4-py3-none-any.whl.metadata (85 kB)
+Requirement already satisfied: typing-extensions>=4.9.0 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from -r requirements.txt (line 7)) (4.15.0)
+Collecting starlette<0.37.0,>=0.36.3 (from fastapi==0.110.0->-r requirements.txt (line 1))
+  Downloading starlette-0.36.3-py3-none-any.whl.metadata (5.9 kB)
+Requirement already satisfied: annotated-types>=0.4.0 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from pydantic==2.6.4->-r requirements.txt (line 6)) (0.7.0)
+Collecting pydantic-core==2.16.3 (from pydantic==2.6.4->-r requirements.txt (line 6))
+  Downloading pydantic_core-2.16.3-cp312-cp312-macosx_11_0_arm64.whl.metadata (6.5 kB)
+Requirement already satisfied: click>=7.0 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from uvicorn==0.28.0->-r requirements.txt (line 2)) (8.1.8)
+Requirement already satisfied: h11>=0.8 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from uvicorn==0.28.0->-r requirements.txt (line 2)) (0.14.0)
+Requirement already satisfied: anyio<5.0.0,>=4.8.0 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-genai==1.29.0->-r requirements.txt (line 3)) (4.11.0)
+Requirement already satisfied: google-auth<3.0.0,>=2.14.1 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-genai==1.29.0->-r requirements.txt (line 3)) (2.38.0)
+Requirement already satisfied: httpx<1.0.0,>=0.28.1 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-genai==1.29.0->-r requirements.txt (line 3)) (0.28.1)
+Requirement already satisfied: requests<3.0.0,>=2.28.1 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-genai==1.29.0->-r requirements.txt (line 3)) (2.32.5)
+Requirement already satisfied: tenacity<9.2.0,>=8.2.3 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-genai==1.29.0->-r requirements.txt (line 3)) (8.5.0)
+Requirement already satisfied: websockets<15.1.0,>=13.0.0 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-genai==1.29.0->-r requirements.txt (line 3)) (15.0.1)
+Collecting langchain-core<0.2.0,>=0.1.25 (from langgraph==0.0.26->-r requirements.txt (line 4))
+  Downloading langchain_core-0.1.53-py3-none-any.whl.metadata (5.9 kB)
+Requirement already satisfied: idna>=2.8 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from anyio<5.0.0,>=4.8.0->google-genai==1.29.0->-r requirements.txt (line 3)) (3.10)
+Requirement already satisfied: sniffio>=1.1 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from anyio<5.0.0,>=4.8.0->google-genai==1.29.0->-r requirements.txt (line 3)) (1.3.1)
+Requirement already satisfied: cachetools<6.0,>=2.0.0 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-auth<3.0.0,>=2.14.1->google-genai==1.29.0->-r requirements.txt (line 3)) (5.5.2)
+Requirement already satisfied: pyasn1-modules>=0.2.1 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-auth<3.0.0,>=2.14.1->google-genai==1.29.0->-r requirements.txt (line 3)) (0.4.1)
+Requirement already satisfied: rsa<5,>=3.1.4 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from google-auth<3.0.0,>=2.14.1->google-genai==1.29.0->-r requirements.txt (line 3)) (4.9)
+Requirement already satisfied: certifi in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from httpx<1.0.0,>=0.28.1->google-genai==1.29.0->-r requirements.txt (line 3)) (2025.1.31)
+Requirement already satisfied: httpcore==1.* in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from httpx<1.0.0,>=0.28.1->google-genai==1.29.0->-r requirements.txt (line 3)) (1.0.7)
+Requirement already satisfied: PyYAML>=5.3 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from langchain-core<0.2.0,>=0.1.25->langgraph==0.0.26->-r requirements.txt (line 4)) (6.0.2)
+Collecting jsonpatch<2.0,>=1.33 (from langchain-core<0.2.0,>=0.1.25->langgraph==0.0.26->-r requirements.txt (line 4))
+  Downloading jsonpatch-1.33-py2.py3-none-any.whl.metadata (3.0 kB)
+Collecting langsmith<0.2.0,>=0.1.0 (from langchain-core<0.2.0,>=0.1.25->langgraph==0.0.26->-r requirements.txt (line 4))
+  Downloading langsmith-0.1.147-py3-none-any.whl.metadata (14 kB)
+Collecting packaging<24.0,>=23.2 (from langchain-core<0.2.0,>=0.1.25->langgraph==0.0.26->-r requirements.txt (line 4))
+  Downloading packaging-23.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting jsonpointer>=1.9 (from jsonpatch<2.0,>=1.33->langchain-core<0.2.0,>=0.1.25->langgraph==0.0.26->-r requirements.txt (line 4))
+  Downloading jsonpointer-3.1.1-py3-none-any.whl.metadata (2.4 kB)
+Requirement already satisfied: orjson<4.0.0,>=3.9.14 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from langsmith<0.2.0,>=0.1.0->langchain-core<0.2.0,>=0.1.25->langgraph==0.0.26->-r requirements.txt (line 4)) (3.10.15)
+INFO: pip is looking at multiple versions of langsmith to determine which version is compatible with other requirements. This could take a while.
+Collecting langsmith<0.2.0,>=0.1.0 (from langchain-core<0.2.0,>=0.1.25->langgraph==0.0.26->-r requirements.txt (line 4))
+  Downloading langsmith-0.1.146-py3-none-any.whl.metadata (14 kB)
+  Downloading langsmith-0.1.145-py3-none-any.whl.metadata (14 kB)
+  Downloading langsmith-0.1.144-py3-none-any.whl.metadata (14 kB)
+  Downloading langsmith-0.1.143-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.142-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.139-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.138-py3-none-any.whl.metadata (13 kB)
+INFO: pip is still looking at multiple versions of langsmith to determine which version is compatible with other requirements. This could take a while.
+  Downloading langsmith-0.1.137-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.134-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.133-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.132-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.131-py3-none-any.whl.metadata (13 kB)
+INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+  Downloading langsmith-0.1.129-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.128-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.127-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.126-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.125-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.124-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.123-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.122-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.121-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.120-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.119-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.118-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.117-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.116-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.115-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.114-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.113-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.112-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.111-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.110-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.109-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.108-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.107-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.106-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.105-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.104-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.103-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.102-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.101-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.99-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.98-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.97-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.96-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.95-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.94-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.93-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.92-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.91-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.90-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.89-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.88-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.87-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.86-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.85-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.84-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.83-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.82-py3-none-any.whl.metadata (13 kB)
+  Downloading langsmith-0.1.81-py3-none-any.whl.metadata (13 kB)
+Requirement already satisfied: charset_normalizer<4,>=2 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from requests<3.0.0,>=2.28.1->google-genai==1.29.0->-r requirements.txt (line 3)) (3.4.1)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from requests<3.0.0,>=2.28.1->google-genai==1.29.0->-r requirements.txt (line 3)) (2.3.0)
+Requirement already satisfied: pyasn1>=0.1.3 in /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages (from rsa<5,>=3.1.4->google-auth<3.0.0,>=2.14.1->google-genai==1.29.0->-r requirements.txt (line 3)) (0.6.1)
+Downloading fastapi-0.110.0-py3-none-any.whl (92 kB)
+Downloading pydantic-2.6.4-py3-none-any.whl (394 kB)
+Downloading uvicorn-0.28.0-py3-none-any.whl (60 kB)
+Downloading google_genai-1.29.0-py3-none-any.whl (222 kB)
+Downloading langgraph-0.0.26-py3-none-any.whl (44 kB)
+Downloading psycopg2_binary-2.9.9-cp312-cp312-macosx_11_0_arm64.whl (2.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.6/2.6 MB 10.3 MB/s  0:00:00
+Downloading pydantic_core-2.16.3-cp312-cp312-macosx_11_0_arm64.whl (1.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 11.1 MB/s  0:00:00
+Downloading langchain_core-0.1.53-py3-none-any.whl (303 kB)
+Downloading jsonpatch-1.33-py2.py3-none-any.whl (12 kB)
+Downloading langsmith-0.1.81-py3-none-any.whl (127 kB)
+Downloading packaging-23.2-py3-none-any.whl (53 kB)
+Downloading starlette-0.36.3-py3-none-any.whl (71 kB)
+Downloading jsonpointer-3.1.1-py3-none-any.whl (7.7 kB)
+Installing collected packages: uvicorn, pydantic-core, psycopg2-binary, packaging, jsonpointer, starlette, pydantic, jsonpatch, langsmith, google-genai, fastapi, langchain-core, langgraph
+  Attempting uninstall: uvicorn
+    Found existing installation: uvicorn 0.40.0
+    Uninstalling uvicorn-0.40.0:
+      Successfully uninstalled uvicorn-0.40.0
+  Attempting uninstall: pydantic-core
+    Found existing installation: pydantic_core 2.41.1
+    Uninstalling pydantic_core-2.41.1:
+      Successfully uninstalled pydantic_core-2.41.1
+  Attempting uninstall: packaging
+    Found existing installation: packaging 24.2
+    Uninstalling packaging-24.2:
+      Successfully uninstalled packaging-24.2
+  Attempting uninstall: starlette
+    Found existing installation: starlette 0.48.0
+    Uninstalling starlette-0.48.0:
+      Successfully uninstalled starlette-0.48.0
+  Attempting uninstall: pydantic
+    Found existing installation: pydantic 2.12.0
+    Uninstalling pydantic-2.12.0:
+      Successfully uninstalled pydantic-2.12.0
+  Attempting uninstall: google-genai
+    Found existing installation: google-genai 1.43.0
+    Uninstalling google-genai-1.43.0:
+      Successfully uninstalled google-genai-1.43.0
+  Attempting uninstall: fastapi
+    Found existing installation: fastapi 0.119.0
+    Uninstalling fastapi-0.119.0:
+      Successfully uninstalled fastapi-0.119.0
+
+Successfully installed fastapi-0.110.0 google-genai-1.29.0 jsonpatch-1.33 jsonpointer-3.1.1 langchain-core-0.1.53 langgraph-0.0.26 langsmith-0.1.81 packaging-23.2 psycopg2-binary-2.9.9 pydantic-2.6.4 pydantic-core-2.16.3 starlette-0.36.3 uvicorn-0.28.0
+

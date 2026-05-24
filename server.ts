@@ -292,8 +292,16 @@ app.get('*', (req, res) => {
 
 // Keep port hardcoded exactly to 3000 in production as mandated by system architecture, but allow dev proxying
 const PORT = process.env.BACKEND_PORT ? parseInt(process.env.BACKEND_PORT, 10) : 3000;
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`[HIRO GATEWAY] Full-Stack Server active at http://0.0.0.0:${PORT}`);
+});
+
+server.on('error', (err: any) => {
+  if (err?.code === 'EADDRINUSE') {
+    console.warn(`[HIRO GATEWAY] Port ${PORT} is already in use; reusing the existing backend process.`);
+    return;
+  }
+  throw err;
 });
 
 process.on('exit', () => {

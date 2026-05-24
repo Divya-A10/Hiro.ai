@@ -76,6 +76,13 @@ export async function analyzeResume(resumeText: string, jobDescription: string):
 
     if (!response.ok) {
       const errorMsg = await response.text();
+      if (response.status === 404) {
+        throw new Error(
+          `Orchestration endpoint not found at ${apiUrl || 'relative /api'} . ` +
+          `Check that the backend is running and that VITE_API_URL points to the service exposing /api/v1/optimize. ` +
+          `Server response: ${errorMsg}`
+        );
+      }
       throw new Error(`Orchestration Engine Exception (Status ${response.status}): ${errorMsg}`);
     }
 

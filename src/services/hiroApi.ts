@@ -88,6 +88,12 @@ export const hiroApiService = {
     
     if (!response.ok) {
       const errTxt = await response.text();
+      if (response.status === 404) {
+        throw new Error(
+          `Optimization endpoint not found at ${url}. Check that the backend is running and that the API base URL points to a service exposing /api/v1/optimize.`
+          + (errTxt ? ` Server response: ${errTxt}` : '')
+        );
+      }
       throw new Error(`Backend optimization failure: ${errTxt || response.statusText}`);
     }
     
